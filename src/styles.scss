@@ -1,0 +1,108 @@
+@use 'tailwindcss';
+@use '@angular/material' as mat;
+
+:root {
+  /* =========================
+     SECTORES - COLORS
+  ========================= */
+
+  --sector-1: #3b82f6;
+  --sector-2: #22c55e;
+  --sector-3: #f59e0b;
+  --sector-4: #ef4444;
+  --sector-5: #8b5cf6;
+  --sector-transversal: #64748b;
+
+  --sector-1-bg: #eff6ff;
+  --sector-2-bg: #f0fdf4;
+  --sector-3-bg: #fffbeb;
+  --sector-4-bg: #fef2f2;
+  --sector-5-bg: #f5f3ff;
+  --sector-transversal-bg: #f1f5f9;
+
+  --chip-15-bg: #dcfce7;
+  --chip-15-text: #166534;
+
+  --chip-30-bg: #dbeafe;
+  --chip-30-text: #1e40af;
+}
+
+/* =========================
+   Angular Material Theme
+========================= */
+
+html {
+  height: 100%;
+
+  @include mat.theme((color: (primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+/* =========================
+   Base
+========================= */
+
+body {
+  color-scheme: light;
+
+  background-color: #fcfcfe;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* =========================
+   Global Helpers
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button {
+  font: inherit;
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* =========================
+   Layout Container
+========================= */
+
+.page-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* =========================
+   Scrollbar
+========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.main-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+}

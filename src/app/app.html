@@ -1,0 +1,13 @@
+<main class="main-container">
+  <app-search-bar />
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    @for (sector of sectors; track sector.id) {
+    <app-sector-card
+      [sectorName]="sector.name"
+      [sectorType]="sector.type"
+      [sectorId]="sector.id">
+    </app-sector-card>
+    }
+  </div>
+</main>
