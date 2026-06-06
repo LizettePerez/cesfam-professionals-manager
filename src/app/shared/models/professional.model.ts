@@ -5,7 +5,7 @@ export interface Professional {
   box: string;
   sector: number;
   duration?: number;
-  waitTime?: number;
+  wait_time?: number;
 }
 
 export interface CreateProfessional {
@@ -14,5 +14,5 @@ export interface CreateProfessional {
   box: string;
   sector: number;
   duration?: number;
-  waitTime?: number;
+  wait_time?: number;
 }
