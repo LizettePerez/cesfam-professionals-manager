@@ -8,6 +8,9 @@ import { ApiService } from './api.service';
 export class ProfessionalsService {
   constructor(private api: ApiService) {}
 
+  // ======================
+  // BASIC CRUD
+  // ======================
   getAll() {
     return this.api.get<Professional[]>('professionals');
   }
@@ -16,15 +19,47 @@ export class ProfessionalsService {
     return this.api.get<Professional[]>(`professionals/sector/${sector}`);
   }
 
-  // create(data: CreateProfessional) {
-  //   return this.api.post<Professional>('professionals', data);
-  // }
+  search(name: string) {
+    return this.api.get<Professional[]>(`professionals/search?name=${name}`);
+  }
 
-  // update(id: number, data: CreateProfessional) {
-  //   return this.api.put<Professional>(`professionals/${id}`, data);
-  // }
+  create(data: Partial<Professional>) {
+    return this.api.post<Professional>('professionals', data);
+  }
 
-  // delete(id: number) {
-  //   return this.api.delete(`professionals/${id}`);
-  // }
+  // ======================
+  // SCHEDULE / BOX LOGIC
+  // ======================
+  getResolveBox(professionalId: number, dt: string) {
+    return this.api.get<any>(`resolve-box?professional_id=${professionalId}&dt=${dt}`);
+  }
+
+  createSchedule(data: any) {
+    return this.api.post<any>('schedules', data);
+  }
+
+  // ======================
+  // HELPERS (FRONT LOGIC CLEAN)
+  // ======================
+  async getSectorWithBoxes(sectorId: number) {
+    const professionals = await this.getBySector(sectorId);
+    const now = new Date().toISOString();
+
+    const enriched = await Promise.all(
+      professionals.map(async (p) => {
+        const res = await this.getResolveBox(p.id, now);
+
+        return {
+          ...p,
+          box: res.box ?? 'Sin asignar',
+        };
+      }),
+    );
+
+    return enriched;
+  }
+
+  getDashboard(sectorId: number, dt: string) {
+    return this.api.get<any>(`dashboard?sector_id=${sectorId}&dt=${dt}`);
+  }
 }

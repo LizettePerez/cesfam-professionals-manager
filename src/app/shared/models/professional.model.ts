@@ -1,7 +1,7 @@
 export interface Professional {
   id: number;
   nombre: string;
-  profesion: string;
+  especialidad: string;
   box: string;
   sector: number;
   duration?: number;
@@ -10,7 +10,7 @@ export interface Professional {
 
 export interface CreateProfessional {
   nombre: string;
-  profesion: string;
+  especialidad: string;
   box: string;
   sector: number;
   duration?: number;

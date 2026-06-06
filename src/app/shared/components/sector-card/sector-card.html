@@ -1,4 +1,5 @@
-<div class="sector-card" [ngClass]="sectorType">
+@if (hasResults) {
+<div class="sector-card" [ngClass]="sectorType" *ngIf="hasResults">
 
   <div class="sector-card__header">
     <div class="sector-card__header-left">
@@ -29,27 +30,11 @@
       </thead>
 
       <tbody>
-        @for (professional of visibleProfessionals; track professional.id) {
+        @for (p of visibleProfessionals; track p.id) {
         <tr>
-          <td class="capitalize">{{ professional.nombre }}</td>
-          <td class="capitalize">{{ professional.profesion }}</td>
-          <td>{{ professional.box }}</td>
-          <td class="text-center">
-            <span class="duration-chip chip-15">
-              {{ professional.duration ? professional.duration + ' min' : '-' }}
-            </span>
-          </td>
-
-          <td class="text-center">
-            <span class="duration-chip chip-30">
-              {{ professional.wait_time ? professional.wait_time + ' min' : '-' }}
-            </span>
-          </td>
-          <td>
-            <button matMiniFab class="edit-btn">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.especialidad }}</td>
+          <td>{{ p.box }}</td>
         </tr>
         }
       </tbody>
@@ -63,3 +48,6 @@
     </div>
   </div>
 </div>
+}@else {
+
+}

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfessionalsService } from '../../../services/professionals.service';
 import { Professional } from '../../models/professional.model';
 
 @Component({
@@ -12,40 +11,42 @@ import { Professional } from '../../models/professional.model';
   templateUrl: './sector-card.html',
   styleUrl: './sector-card.scss',
 })
-export class SectorCard implements OnInit {
+export class SectorCard {
   @Input() sectorName!: string;
   @Input() sectorType!: string;
-  @Input() sectorId!: number;
+  @Input() searchTerm = '';
 
-  professionals: Professional[] = [];
-  pageSize = 6;
+  @Input() professionals: Professional[] = [];
+
   visibleCount = 6;
 
-  constructor(
-    private professionalsService: ProfessionalsService,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  get filteredProfessionals() {
+    if (!this.searchTerm) return this.professionals;
 
-  async ngOnInit() {
-    const data = await this.professionalsService.getBySector(this.sectorId);
+    const term = this.searchTerm.toLowerCase();
 
-    this.professionals = data;
-
-    this.visibleCount = Math.min(this.pageSize, this.professionals.length);
-    this.cdr.detectChanges();
+    return this.professionals.filter(
+      (p) =>
+        p.nombre?.toLowerCase().includes(term) ||
+        p.especialidad?.toLowerCase().includes(term) ||
+        p.box?.toLowerCase().includes(term) ||
+        String(p.sector).includes(term),
+    );
   }
+
   get visibleProfessionals() {
-    return this.professionals.slice(0, this.visibleCount);
+    return this.filteredProfessionals.slice(0, this.visibleCount);
+  }
+
+  get remainingCount() {
+    return Math.max(this.filteredProfessionals.length - this.visibleCount, 0);
+  }
+
+  get hasResults(): boolean {
+    return this.filteredProfessionals.length > 0;
   }
 
   loadMore() {
-    this.visibleCount = this.professionals.length;
+    this.visibleCount = this.filteredProfessionals.length;
   }
-
-  get remainingCount(): number {
-    return Math.max(this.professionals.length - this.visibleCount, 0);
-  }
-
-  addProfessional() {}
-  editInformation() {}
 }
