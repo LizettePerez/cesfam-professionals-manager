@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -170,6 +170,11 @@ export class ConfirmDialog implements OnInit {
   // =========================
   // SAVE
   // =========================
+  @Output() actionEvent = new EventEmitter<{
+    action: 'create' | 'edit' | 'delete';
+    professional?: Professional;
+  }>();
+
   async saveProfessional() {
     if (this.isSaving) return;
     const sector = this.data.sectorId;
@@ -203,12 +208,16 @@ export class ConfirmDialog implements OnInit {
       await this.reloadProfessionals();
 
       this.selectedProfessional = created;
-
       this.searchControl.setValue(created, { emitEvent: false });
       this.specialtyControl.setValue(created.especialidad, { emitEvent: false });
 
       this.isExistingProfessional = true;
       this.isNewProfessional = false;
+
+      this.actionEvent.emit({
+        action: 'create',
+        professional: created,
+      });
 
       this.snackBar.open('Profesional creado correctamente', 'Cerrar', {
         duration: 3000,

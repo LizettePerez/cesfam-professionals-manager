@@ -67,9 +67,18 @@ export class SectorCard {
       },
     });
 
+    const instance = dialogRef.componentInstance;
+
+    // 🔥 CREATE / EDIT (no cierran dialog)
+    instance.actionEvent?.subscribe((res) => {
+      if (res.action === 'create' || res.action === 'edit') {
+        this.refreshSector.emit(this.sectorId);
+      }
+    });
+
+    // 🔥 DELETE (si cierra dialog)
     dialogRef.afterClosed().subscribe((result) => {
       if (!result?.success) return;
-
       this.refreshSector.emit(this.sectorId);
     });
   }
