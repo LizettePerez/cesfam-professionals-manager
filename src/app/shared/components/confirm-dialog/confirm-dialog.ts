@@ -150,20 +150,20 @@ export class ConfirmDialog implements OnInit {
   // =========================
   createDays() {
     return [
-      { label: 'L', value: 'L', checked: false },
-      { label: 'M', value: 'M', checked: false },
-      { label: 'Mi', value: 'Mi', checked: false },
-      { label: 'J', value: 'J', checked: false },
-      { label: 'V', value: 'V', checked: false },
-      { label: 'S', value: 'S', checked: false },
+      { label: 'L', value: 0, checked: false },
+      { label: 'M', value: 1, checked: false },
+      { label: 'Mi', value: 2, checked: false },
+      { label: 'J', value: 3, checked: false },
+      { label: 'V', value: 4, checked: false },
+      // { label: 'S', value: 5, checked: false },
     ];
   }
 
-  isDayDisabledInOptional(dayValue: string): boolean {
+  isDayDisabledInOptional(dayValue: number): boolean {
     return this.scheduleMain.days.some((d) => d.value === dayValue && d.checked);
   }
 
-  isDayDisabledInMain(dayValue: string): boolean {
+  isDayDisabledInMain(dayValue: number): boolean {
     return this.scheduleOptional.days.some((d) => d.value === dayValue && d.checked);
   }
 
@@ -283,6 +283,111 @@ export class ConfirmDialog implements OnInit {
       });
     } finally {
       this.isDeleting = false;
+    }
+  }
+
+  async assignBox() {
+    if (this.isSaving) return;
+
+    if (!this.selectedProfessional) {
+      this.snackBar.open('Debes seleccionar un profesional', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      return;
+    }
+
+    const professional_id = this.selectedProfessional.id;
+
+    let payload: any = {
+      professional_id,
+      box: null,
+      start_time: null,
+      end_time: null,
+      days: null,
+    };
+
+    this.cdr.detectChanges();
+
+    // =========================
+    // FIXED MODE
+    // =========================
+    if (this.boxMode === 'fixed') {
+      const box = this.scheduleMain.box?.trim();
+
+      if (!box) {
+        this.snackBar.open('Debes ingresar el box', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        return;
+      }
+
+      payload.box = box;
+    }
+
+    // =========================
+    // TIME MODE
+    // =========================
+    if (this.boxMode === 'time') {
+      const { start, end, box } = this.scheduleMain;
+
+      if (!start || !end || !box) {
+        this.snackBar.open('Completa horario y box', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        return;
+      }
+
+      payload.box = box;
+      payload.start_time = start;
+      payload.end_time = end;
+    }
+
+    // =========================
+    // DAY MODE
+    // =========================
+    if (this.boxMode === 'day') {
+      const box = this.scheduleMain.box?.trim();
+
+      const days = this.scheduleMain.days.filter((d) => d.checked).map((d) => d.value);
+
+      if (!box || days.length === 0) {
+        this.snackBar.open('Debes seleccionar días y box', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        return;
+      }
+
+      payload.box = box;
+      payload.days = days;
+    }
+
+    this.isSaving = true;
+
+    try {
+      await this.professionalsService.createSchedule(payload);
+
+      this.snackBar.open('Box asignado correctamente', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+
+      this.dialogRef.close({
+        action: 'edit',
+        professional: this.data.professional,
+        success: true,
+      });
+    } catch (e: any) {
+      this.snackBar.open(e?.error?.message || 'Error al asignar box', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    } finally {
+      this.isSaving = false;
+      this.cdr.detectChanges();
     }
   }
 }

@@ -102,7 +102,7 @@
     <div class="flex-input">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Box</mat-label>
-        <input matInput placeholder="Ej: 56">
+        <input matInput placeholder="Ej: 56" [(ngModel)]="scheduleMain.box">
       </mat-form-field>
     </div>
     }
@@ -307,8 +307,18 @@
     }
   </button>
   }@else {
-  <button mat-flat-button color="primary" class="btn-primary">
+  <button
+    mat-flat-button
+    class="btn-primary"
+    (click)="assignBox()"
+    [disabled]="isSaving">
+
+    @if (isSaving) {
+    <mat-spinner diameter="18"></mat-spinner>
+    } @else {
     Asignar Box
+    }
+
   </button>
   }
   }

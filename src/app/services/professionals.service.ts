@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { Professional } from '../shared/models/professional.model';
 import { ApiService } from './api.service';
 
+export interface CreateScheduleDto {
+  professional_id: number;
+  box: string;
+  start_time: string | null;
+  end_time: string | null;
+  days: number[] | null;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -34,7 +41,7 @@ export class ProfessionalsService {
     return this.api.get<any>(`resolve-box?professional_id=${professionalId}&dt=${dt}`);
   }
 
-  createSchedule(data: any) {
+  createSchedule(data: CreateScheduleDto) {
     return this.api.post<any>('schedules', data);
   }
 
