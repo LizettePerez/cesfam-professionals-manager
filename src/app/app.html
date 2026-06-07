@@ -11,7 +11,8 @@
       [sectorName]="sector.name"
       [sectorType]="sector.type"
       [professionals]="sector.professionals"
-      [searchTerm]="searchTerm">
+      [searchTerm]="searchTerm"
+      (refreshSector)="reloadSector($event)">
     </app-sector-card>
     }
 

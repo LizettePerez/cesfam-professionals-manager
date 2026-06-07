@@ -34,25 +34,7 @@ export class App implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.loading = true;
-
-    try {
-      const now = new Date().toISOString();
-
-      const requests = this.sectors.map((sector) =>
-        this.professionalsService.getDashboard(sector.id, now),
-      );
-
-      const results = await Promise.all(requests);
-
-      this.sectors = this.sectors.map((sector, index) => ({
-        ...sector,
-        professionals: results[index],
-      }));
-    } finally {
-      this.loading = false;
-      this.cdr.detectChanges();
-    }
+    await this.reloadDashboard();
   }
 
   onSearch(value: string) {
@@ -80,5 +62,39 @@ export class App implements OnInit {
         ),
       }))
       .filter((sector) => sector.professionals.length > 0);
+  }
+
+  async reloadDashboard() {
+    this.loading = true;
+
+    try {
+      const now = new Date().toISOString();
+
+      const requests = this.sectors.map((sector) =>
+        this.professionalsService.getDashboard(sector.id, now),
+      );
+
+      const results = await Promise.all(requests);
+
+      this.sectors = this.sectors.map((sector, index) => ({
+        ...sector,
+        professionals: results[index],
+      }));
+    } finally {
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  async reloadSector(sectorId: number) {
+    const now = new Date().toISOString();
+
+    const updated = await this.professionalsService.getDashboard(sectorId, now);
+
+    this.sectors = this.sectors.map((sector) =>
+      sector.id === sectorId ? { ...sector, professionals: updated } : sector,
+    );
+
+    this.cdr.detectChanges();
   }
 }
