@@ -1,4 +1,4 @@
-<h2 mat-dialog-title [ngClass]="data.action === 'delete' ? 'title-danger' : ''">
+<h2 mat-dialog-title>
   @switch(data.action) {
 
   @case('add') {
@@ -10,7 +10,7 @@
   }
 
   @case('edit') { Editar profesional }
-  @case('delete') { Eliminar profesional }
+  @case('delete') { Eliminar box asignado }
 
   }
 </h2>
@@ -70,12 +70,12 @@
     <mat-label>Especialidad</mat-label>
     <mat-select [formControl]="specialtyControl" required
       placeholder="Seleccionar especialidad">
-      <mat-option value="Médico">Médico</mat-option>
-      <mat-option value="Matrona">Matrona</mat-option>
-      <mat-option value="Enfermero">Enfermero/a</mat-option>
-      <mat-option value="Nutricionista">Nutricionista</mat-option>
-      <mat-option value="Trabajadora Social">Trabajadora Social</mat-option>
-      <mat-option value="TENS/Preparación">TENS/Preparación</mat-option>
+      <mat-option value="médico">Médico</mat-option>
+      <mat-option value="matrona">Matrona</mat-option>
+      <mat-option value="enfermero">Enfermero/a</mat-option>
+      <mat-option value="nutricionista">Nutricionista</mat-option>
+      <mat-option value="trabajadora Social">Trabajadora Social</mat-option>
+      <mat-option value="tens/preparación">TENS/Preparación</mat-option>
     </mat-select>
     @if (specialtyControl.touched && specialtyControl.invalid) {
     <mat-error>Debe seleccionar especialidad</mat-error>

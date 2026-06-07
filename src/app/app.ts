@@ -75,6 +75,7 @@ export class App implements OnInit {
       );
 
       const results = await Promise.all(requests);
+      console.log('RESULTADO: ', results);
 
       this.sectors = this.sectors.map((sector, index) => ({
         ...sector,

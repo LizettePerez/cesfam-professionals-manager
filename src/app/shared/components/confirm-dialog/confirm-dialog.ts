@@ -69,7 +69,9 @@ export class ConfirmDialog implements OnInit {
       professional?: Professional;
       sectorId: number;
     },
-  ) {}
+  ) {
+    console.log('DATA: ', this.data);
+  }
 
   // =========================
   // INIT
@@ -79,6 +81,23 @@ export class ConfirmDialog implements OnInit {
 
     this.filteredProfessionals = [...this.professionals];
 
+    // 🔥 EDIT MODE
+    if (this.data.action === 'edit' && this.data.professional) {
+      const p = this.data.professional;
+
+      this.selectedProfessional = p;
+
+      // nombre
+      this.searchControl.setValue(p, { emitEvent: false });
+      this.searchControl.disable({ emitEvent: false });
+
+      // 🔥 ESPECIALIDAD (ESTO TE FALTABA)
+      this.specialtyControl.setValue(p.especialidad, { emitEvent: false });
+
+      return;
+    }
+
+    // CREATE MODE
     this.searchControl.valueChanges.subscribe((value) => {
       this.handleSearch(value);
       this.cdr.detectChanges();
@@ -389,5 +408,13 @@ export class ConfirmDialog implements OnInit {
       this.isSaving = false;
       this.cdr.detectChanges();
     }
+  }
+
+  confirmDeleteProfessional() {
+    const ok = confirm('¿Estás seguro de eliminar este profesional?');
+
+    if (!ok) return;
+
+    this.deleteProfessional();
   }
 }

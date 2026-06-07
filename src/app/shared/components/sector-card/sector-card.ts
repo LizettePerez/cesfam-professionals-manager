@@ -27,11 +27,13 @@ export class SectorCard {
   visibleCount = 6;
 
   get filteredProfessionals() {
-    if (!this.searchTerm) return this.professionals;
+    const base = this.professionals; // 👈 SIN FILTRO
+
+    if (!this.searchTerm) return base;
 
     const term = this.searchTerm.toLowerCase();
 
-    return this.professionals.filter(
+    return base.filter(
       (p) =>
         p.nombre?.toLowerCase().includes(term) ||
         p.especialidad?.toLowerCase().includes(term) ||
