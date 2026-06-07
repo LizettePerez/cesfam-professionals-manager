@@ -68,4 +68,17 @@ export class App implements OnInit {
       this.loading = false;
     }
   }
+
+  get filteredSectors() {
+    if (!this.searchTerm) return this.sectors;
+
+    return this.sectors
+      .map((sector) => ({
+        ...sector,
+        professionals: sector.professionals.filter((p) =>
+          p.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()),
+        ),
+      }))
+      .filter((sector) => sector.professionals.length > 0);
+  }
 }

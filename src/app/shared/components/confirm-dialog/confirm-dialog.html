@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>
+<h2 mat-dialog-title [ngClass]="data.action === 'delete' ? 'title-danger' : ''">
   @switch(data.action) {
   @case('add') { Agregar profesional }
   @case('edit') { Editar profesional }
@@ -48,15 +48,6 @@
           {{ p.nombre }}
         </mat-option>
         }
-
-        <!-- EMPTY SOLO CUANDO HAY BÚSQUEDA -->
-        <!-- @if (searchControl.value &&
-        filteredProfessionals.length ===
-        0) {
-        <mat-option disabled>
-          No existe profesional
-        </mat-option>
-        } -->
 
       </mat-autocomplete>
     </mat-form-field>
@@ -203,10 +194,28 @@
   @if (data.action === 'delete') {
 
   <div class="delete-warning">
-    <p>
-      ¿Deseas eliminar a
-      <strong>{{ data.professional?.nombre }}</strong>?
-    </p>
+    <mat-icon>warning</mat-icon>
+    <div class="text-warning">
+      <p class="font-bold">¿Estás seguro de eliminar este profesional?</p>
+      <p>Esta acción no se puede deshacer</p>
+    </div>
+  </div>
+
+  <div class="user-warning">
+    <div class="avatar">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="datos">
+      <span><span class="font-bold">Nombre: </span>{{ data.professional?.nombre
+        }}</span>
+      <span><span class="font-bold">Especialidad: </span>{{
+        data.professional?.especialidad }}</span>
+      <span><span class="font-bold">Sector: </span>{{ data.sectorId }}</span>
+    </div>
+  </div>
+
+  <div class="alert-warning">
+    <mat-icon class="icon-color">info</mat-icon>
     <p>También se eliminarán todos sus horarios.</p>
   </div>
 
@@ -224,8 +233,16 @@
   </button>
 
   @if (data.action === 'delete') {
-  <button mat-flat-button color="warn" class="btn-primary">
+  <button
+    mat-flat-button
+    class="btn-danger"
+    (click)="deleteProfessional()"
+    [disabled]="isDeleting">
+    @if (isDeleting) {
+    <mat-spinner diameter="18"></mat-spinner>
+    } @else {
     Eliminar
+    }
   </button>
   } @else {
   @if (!isExistingProfessional) {
@@ -233,7 +250,7 @@
     mat-flat-button
     class="btn-primary"
     (click)="saveProfessional()"
-    [disabled]="isSaving || isExistingProfessional || !searchControl.value">
+    [disabled]="isSaving || isExistingProfessional">
 
     @if (isSaving) {
     <mat-spinner diameter="18"></mat-spinner>

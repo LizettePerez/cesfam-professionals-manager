@@ -62,4 +62,8 @@ export class ProfessionalsService {
   getDashboard(sectorId: number, dt: string) {
     return this.api.get<any>(`dashboard?sector_id=${sectorId}&dt=${dt}`);
   }
+
+  deleteProfessional(id: number) {
+    return this.api.delete<any>(`professionals/${id}`);
+  }
 }

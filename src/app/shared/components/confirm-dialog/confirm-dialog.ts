@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SHARED_IMPORTS } from '../../material/shared-imports';
 import { Professional } from '../../models/professional.model';
@@ -16,8 +16,12 @@ export class ConfirmDialog implements OnInit {
   // =========================
   // FORM
   // =========================
-  searchControl = new FormControl<Professional | string | null>(null);
-  specialtyControl = new FormControl<string | null>(null);
+  searchControl = new FormControl<Professional | string | null>(null, {
+    validators: [Validators.required],
+  });
+  specialtyControl = new FormControl<string | null>(null, {
+    validators: [Validators.required],
+  });
 
   professionals: Professional[] = [];
   filteredProfessionals: Professional[] = [];
@@ -54,6 +58,7 @@ export class ConfirmDialog implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<ConfirmDialog>,
     private cdr: ChangeDetectorRef,
     private professionalsService: ProfessionalsService,
     @Inject(MAT_DIALOG_DATA)
@@ -180,23 +185,30 @@ export class ConfirmDialog implements OnInit {
   // =========================
   async saveProfessional() {
     if (this.isSaving) return;
+    const sector = this.data.sectorId;
 
     const nombre =
       typeof this.searchControl.value === 'string'
         ? this.searchControl.value
         : this.searchControl.value?.nombre;
 
-    if (!nombre) return;
+    // 🔴 marcar como touched SIEMPRE antes de validar
+    this.searchControl.markAsTouched();
+    this.specialtyControl.markAsTouched();
+
+    // 🔴 validación con return temprano
+    if (!nombre || this.specialtyControl.invalid) {
+      return;
+    }
 
     this.isSaving = true;
-
-    this.cdr.detectChanges(); // 👈 activa spinner seguro
+    this.cdr.detectChanges();
 
     try {
       const payload = {
         nombre,
         especialidad: this.specialtyControl.value ?? undefined,
-        sector: this.data.professional?.sector ?? 1,
+        sector: sector,
       };
 
       const created = await this.professionalsService.create(payload);
@@ -222,7 +234,7 @@ export class ConfirmDialog implements OnInit {
       });
     } finally {
       this.isSaving = false;
-      this.cdr.detectChanges(); // 👈 apaga spinner bien
+      this.cdr.detectChanges();
     }
   }
 
@@ -245,6 +257,36 @@ export class ConfirmDialog implements OnInit {
       (p) => p.nombre.toLowerCase() === (currentName ?? '').toLowerCase(),
     );
 
-    this.cdr.detectChanges(); // 👈 FIX NG0100
+    this.cdr.detectChanges();
+  }
+
+  isDeleting = false;
+
+  async deleteProfessional() {
+    if (!this.data.professional) return;
+
+    this.isDeleting = true;
+
+    try {
+      await this.professionalsService.deleteProfessional(this.data.professional.id);
+
+      this.snackBar.open('Profesional eliminado correctamente', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+
+      this.dialogRef.close({
+        action: 'delete',
+        professional: this.data.professional,
+        success: true,
+      });
+    } catch (e: any) {
+      this.snackBar.open(e?.error?.message || 'Error al eliminar profesional', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    } finally {
+      this.isDeleting = false;
+    }
   }
 }

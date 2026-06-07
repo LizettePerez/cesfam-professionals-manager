@@ -130,6 +130,18 @@ select {
   background: var(--primary-hover) !important;
 }
 
+.btn-danger {
+  background: #dc2626 !important;
+  color: white !important;
+  border-radius: 12px !important;
+  transition: .2s;
+  padding: 20px 15px !important;
+}
+
+.btn-danger:hover {
+  background: #b91c1c !important;
+}
+
 .btn-secondary {
   border-radius: 12px !important;
   border: 1px solid #d1d5db !important;

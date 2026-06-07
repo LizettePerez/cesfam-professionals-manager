@@ -59,3 +59,46 @@
   gap: 6px;
   flex-wrap: wrap;
 }
+
+.delete-warning {
+  padding: 16px;
+  background: #fdeff0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--danger-hover) !important;
+}
+
+.alert-warning {
+  padding: 16px;
+  background: #eff6ff;
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-color {
+  color: #3b82f6 !important;
+}
+
+.user-warning {
+  padding: 16px;
+  margin: 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+
+.datos {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-danger {
+  color: var(--danger) !important;
+  font-weight: 700 !important;
+}

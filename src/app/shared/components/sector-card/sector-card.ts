@@ -66,17 +66,6 @@ export class SectorCard {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (!result) return;
-
-      // switch (action) {
-      //   case 'add':
-      //     this.addProfessional(result);
-      //     break;
-
-      //   case 'edit':
-      //     this.updateProfessional(result);
-      //     break;
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
