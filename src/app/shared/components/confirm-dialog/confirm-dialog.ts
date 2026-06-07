@@ -38,9 +38,11 @@ export class ConfirmDialog implements OnInit {
   // =========================
   // BOX / SCHEDULE (TU HTML LOS USA)
   // =========================
-  isSameBox = true;
-  useSchedule = false;
-  useOptionalSchedule = true;
+  boxMode: 'fixed' | 'time' | 'day' = 'fixed';
+
+  setBoxMode(mode: 'fixed' | 'time' | 'day') {
+    this.boxMode = mode;
+  }
 
   scheduleMain = {
     days: this.createDays(),
@@ -144,21 +146,6 @@ export class ConfirmDialog implements OnInit {
   displayProfessional = (p: any): string => (p ? p.nombre : '');
 
   // =========================
-  // BOX TOGGLES
-  // =========================
-  onSameBoxChange(event: any) {
-    if (event.checked) {
-      this.useSchedule = false;
-    }
-  }
-
-  onScheduleChange(event: any) {
-    if (event.checked) {
-      this.isSameBox = false;
-    }
-  }
-
-  // =========================
   // DAYS
   // =========================
   createDays() {
@@ -172,12 +159,12 @@ export class ConfirmDialog implements OnInit {
     ];
   }
 
-  isDayDisabledInMain(dayValue: string): boolean {
-    return this.scheduleOptional.days.some((d) => d.value === dayValue && d.checked);
-  }
-
   isDayDisabledInOptional(dayValue: string): boolean {
     return this.scheduleMain.days.some((d) => d.value === dayValue && d.checked);
+  }
+
+  isDayDisabledInMain(dayValue: string): boolean {
+    return this.scheduleOptional.days.some((d) => d.value === dayValue && d.checked);
   }
 
   // =========================

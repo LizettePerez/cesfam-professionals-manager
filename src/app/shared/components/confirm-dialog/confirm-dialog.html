@@ -1,8 +1,17 @@
 <h2 mat-dialog-title [ngClass]="data.action === 'delete' ? 'title-danger' : ''">
   @switch(data.action) {
-  @case('add') { Agregar profesional }
+
+  @case('add') {
+  @if (isExistingProfessional) {
+  Asignar Box
+  } @else {
+  Agregar profesional
+  }
+  }
+
   @case('edit') { Editar profesional }
   @case('delete') { Eliminar profesional }
+
   }
 </h2>
 
@@ -83,12 +92,13 @@
   <div class="row">
 
     <div class="flex-2">
-      <mat-checkbox [(ngModel)]="isSameBox" (change)="onSameBoxChange($event)">
+      <mat-checkbox [checked]="boxMode === 'fixed'"
+        (change)="setBoxMode('fixed')">
         Atiende en el mismo box todo el tiempo
       </mat-checkbox>
     </div>
 
-    @if (isSameBox) {
+    @if (boxMode === 'fixed') {
     <div class="flex-input">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Box</mat-label>
@@ -103,83 +113,121 @@
   <!-- =========================
      HORARIOS
 ========================= -->
-  <mat-checkbox [(ngModel)]="useSchedule" (change)="onScheduleChange($event)">
-    Cambia de box según horario o día
+  <mat-checkbox
+    [checked]="boxMode === 'time'"
+    (change)="setBoxMode('time')">
+    Cambia de box según horario
   </mat-checkbox>
 
-  @if (useSchedule) {
+  <mat-divider></mat-divider>
 
-  <div class="schedule-table">
+  <mat-checkbox
+    [checked]="boxMode === 'day'"
+    (change)="setBoxMode('day')">
+    Cambia de box según día de la semana
+  </mat-checkbox>
 
-    <!-- HEADER -->
-    <div class="schedule-header">
-      <div>Días de la semana</div>
-      <div>Hora inicio</div>
-      <div>Hora fin</div>
-      <div>Box</div>
-    </div>
+  @if (boxMode === 'time') {
 
-    <!-- ========================= -->
-    <!-- MAIN (OBLIGATORIO) -->
-    <!-- ========================= -->
+  <div class="schedule-table time-mode">
+
+    <!-- 🔵 MAIN -->
     <div class="schedule-row">
 
-      <div class="days-row">
-        @for (d of scheduleMain.days; track d.value) {
-        <mat-checkbox [(ngModel)]="d.checked"
-          [disabled]="isDayDisabledInMain(d.value)">
-          {{ d.label }}
-        </mat-checkbox>
-        }
+      <div class="izq">
+        <mat-form-field appearance="outline">
+          <mat-label>Hora inicio</mat-label>
+          <input matInput type="time" [(ngModel)]="scheduleMain.start">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hora fin</mat-label>
+          <input matInput type="time" [(ngModel)]="scheduleMain.end">
+        </mat-form-field>
       </div>
 
       <mat-form-field appearance="outline">
-        <input matInput type="time" [(ngModel)]="scheduleMain.start">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <input matInput type="time" [(ngModel)]="scheduleMain.end">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="scheduleMain.box" placeholder="Ej: 56">
+        <mat-label>Box</mat-label>
+        <input matInput [(ngModel)]="scheduleMain.box" placeholder="Ej: 54">
       </mat-form-field>
 
     </div>
 
     <mat-divider></mat-divider>
 
-    <!-- ========================= -->
-    <!-- OPTIONAL (INDEPENDIENTE) -->
-    <!-- ========================= -->
-    @if (useOptionalSchedule) {
-
+    <!-- 🔵 OPTIONAL -->
     <div class="schedule-row">
 
-      <div class="days-row">
-        @for (d of scheduleOptional.days; track d.value) {
-        <mat-checkbox [(ngModel)]="d.checked"
-          [disabled]="isDayDisabledInOptional(d.value)">
-          {{ d.label }}
-        </mat-checkbox>
-        }
+      <div class="izq">
+        <mat-form-field appearance="outline">
+          <mat-label>Hora inicio</mat-label>
+          <input matInput type="time" [(ngModel)]="scheduleOptional.start">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hora fin</mat-label>
+          <input matInput type="time" [(ngModel)]="scheduleOptional.end">
+        </mat-form-field>
       </div>
 
       <mat-form-field appearance="outline">
-        <input matInput type="time" [(ngModel)]="scheduleOptional.start">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <input matInput type="time" [(ngModel)]="scheduleOptional.end">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="scheduleOptional.box" placeholder="Ej: 8">
+        <mat-label>Box</mat-label>
+        <input matInput [(ngModel)]="scheduleOptional.box" placeholder="Ej: 6">
       </mat-form-field>
 
     </div>
 
-    }
+  </div>
+
+  }
+  @if (boxMode === 'day') {
+
+  <div class="schedule-table">
+
+    <!-- 🔵 MAIN -->
+    <div class="schedule-row">
+      <div class="izq">
+        <div class="days-row">
+          @for (d of scheduleMain.days; track d.value) {
+          <mat-checkbox
+            [(ngModel)]="d.checked"
+            [disabled]="isDayDisabledInMain(d.value)">
+            {{ d.label }}
+          </mat-checkbox>
+          }
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Box</mat-label>
+        <input matInput [(ngModel)]="scheduleMain.box" placeholder="Ej: 54">
+      </mat-form-field>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- 🔵 OPTIONAL -->
+    <div class="schedule-row">
+
+      <div class="izq">
+        <div class="days-row">
+          @for (d of scheduleOptional.days; track d.value) {
+          <mat-checkbox
+            [(ngModel)]="d.checked"
+            [disabled]="isDayDisabledInOptional(d.value)">
+            {{ d.label }}
+          </mat-checkbox>
+          }
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Box</mat-label>
+        <input matInput [(ngModel)]="scheduleOptional.box" placeholder="Ej: 6">
+      </mat-form-field>
+
+    </div>
 
   </div>
 
