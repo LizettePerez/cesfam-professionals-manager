@@ -241,30 +241,21 @@
 ========================= -->
   @if (data.action === 'delete') {
 
-  <div class="delete-warning">
-    <mat-icon>warning</mat-icon>
-    <div class="text-warning">
-      <p class="font-bold">¿Estás seguro de eliminar este profesional?</p>
-      <p>Esta acción no se puede deshacer</p>
-    </div>
-  </div>
+  <div class="simple-delete">
 
-  <div class="user-warning">
-    <div class="avatar">
-      <mat-icon>account_circle</mat-icon>
-    </div>
-    <div class="datos capitalize">
-      <span><span class="font-bold">Nombre: </span>{{ data.professional?.nombre
-        }}</span>
-      <span><span class="font-bold">Especialidad: </span>{{
-        data.professional?.especialidad }}</span>
-      <span><span class="font-bold">Sector: </span>{{ data.sectorId }}</span>
-    </div>
-  </div>
+    <mat-icon class="warn-icon">delete_forever</mat-icon>
 
-  <div class="alert-warning">
-    <mat-icon class="icon-color">info</mat-icon>
-    <p>También se eliminarán todos sus horarios.</p>
+    <div class="text">
+      <p class="title">Eliminar registro de box</p>
+      <p class="subtitle">
+        Esta acción eliminará este registro de asignación.
+      </p>
+    </div>
+
+    <div class="box-info">
+      <span><b>Box:</b> {{ data.professional?.box }}</span>
+    </div>
+
   </div>
 
   }
@@ -283,14 +274,16 @@
   @if (data.action === 'delete') {
   <button
     mat-flat-button
-    class="btn-danger"
-    (click)="deleteProfessional()"
+    class="btn-primary"
+    (click)="deleteSchedule()"
     [disabled]="isDeleting">
+
     @if (isDeleting) {
     <mat-spinner diameter="18"></mat-spinner>
     } @else {
-    Eliminar
+    Eliminar registro
     }
+
   </button>
   } @else {
   @if (!isExistingProfessional) {

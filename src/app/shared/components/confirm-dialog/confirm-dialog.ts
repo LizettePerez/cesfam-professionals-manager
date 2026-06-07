@@ -417,4 +417,28 @@ export class ConfirmDialog implements OnInit {
 
     this.deleteProfessional();
   }
+
+  async deleteSchedule() {
+    this.isDeleting = true;
+
+    try {
+      const scheduleId = this.data.professional?.schedule_id;
+
+      if (!scheduleId) {
+        console.error('No schedule_id found');
+        return;
+      }
+
+      await this.professionalsService.deleteSchedule(scheduleId);
+
+      this.dialogRef.close({
+        success: true,
+        deleted: scheduleId,
+      });
+    } catch (error) {
+      console.error('Error deleting schedule:', error);
+    } finally {
+      this.isDeleting = false;
+    }
+  }
 }

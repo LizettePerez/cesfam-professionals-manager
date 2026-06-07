@@ -73,4 +73,12 @@ export class ProfessionalsService {
   deleteProfessional(id: number) {
     return this.api.delete<any>(`professionals/${id}`);
   }
+
+  deleteSchedule(scheduleId: number) {
+    return this.api.delete<any>(`schedules/${scheduleId}`);
+  }
+
+  deleteSchedulesByProfessional(professionalId: number) {
+    return this.api.delete<any>(`schedules/professional/${professionalId}`);
+  }
 }

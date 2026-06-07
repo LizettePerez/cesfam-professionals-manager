@@ -119,3 +119,32 @@ mat-form-field {
   flex: 1;
   min-width: 160px;
 }
+
+.simple-delete {
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.warn-icon {
+  color: #e53935;
+  font-size: 30px;
+}
+
+.text .title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.text .subtitle {
+  font-size: 13px;
+  color: #666;
+}
+
+.box-info {
+  padding: 8px 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  font-size: 13px;
+}
