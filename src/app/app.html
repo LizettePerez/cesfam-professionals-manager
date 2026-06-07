@@ -7,6 +7,7 @@
 
     @for (sector of sectors; track sector.id) {
     <app-sector-card
+      [sectorId]="sector.id"
       [sectorName]="sector.name"
       [sectorType]="sector.type"
       [professionals]="sector.professionals"

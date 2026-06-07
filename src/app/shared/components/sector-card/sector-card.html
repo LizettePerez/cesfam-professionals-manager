@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="sector-card__header-right">
-      <button matMiniFab [ngClass]="sectorType" class="sector-add-btn">
+      <button matMiniFab [ngClass]="sectorType" class="app-mini-fab-custom" (click)="confirmDialog('add')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -20,11 +20,12 @@
     <table class="sector-table">
       <thead>
         <tr>
-          <th>Profesional</th>
-          <th>Especialidad</th>
+          <th class="capitalize">Profesional</th>
+          <th class="capitalize">Especialidad</th>
           <th>Box</th>
-          <th class="text-center">Duración</th>
-          <th class="text-center">Espera máx.</th>
+          <!-- <th class="text-center">Duración</th>
+          <th class="text-center">Espera máx.</th> -->
+          <th></th>
           <th></th>
         </tr>
       </thead>
@@ -32,9 +33,21 @@
       <tbody>
         @for (p of visibleProfessionals; track p.id) {
         <tr>
-          <td>{{ p.nombre }}</td>
-          <td>{{ p.especialidad }}</td>
+          <td class="capitalize">{{ p.nombre }}</td>
+          <td class="capitalize">{{ p.especialidad }}</td>
           <td>{{ p.box }}</td>
+          <td>
+            <button matMiniFab class="app-mini-fab app-mini-fab-edit"
+              (click)="confirmDialog('edit', p)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button matMiniFab class="app-mini-fab app-mini-fab-delete"
+              (click)="confirmDialog('delete', p)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
         </tr>
         }
       </tbody>

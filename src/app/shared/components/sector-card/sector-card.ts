@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Professional } from '../../models/professional.model';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-sector-card',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatDialogModule],
   templateUrl: './sector-card.html',
   styleUrl: './sector-card.scss',
 })
@@ -15,8 +17,11 @@ export class SectorCard {
   @Input() sectorName!: string;
   @Input() sectorType!: string;
   @Input() searchTerm = '';
+  @Input() sectorId!: number;
 
   @Input() professionals: Professional[] = [];
+
+  constructor(private dialog: MatDialog) {}
 
   visibleCount = 6;
 
@@ -48,5 +53,30 @@ export class SectorCard {
 
   loadMore() {
     this.visibleCount = this.filteredProfessionals.length;
+  }
+
+  confirmDialog(action: 'add' | 'edit' | 'delete', professional?: Professional) {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      width: '800px',
+      maxWidth: '95vw',
+      data: {
+        action,
+        professional,
+        sectorId: this.sectorId,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      // switch (action) {
+      //   case 'add':
+      //     this.addProfessional(result);
+      //     break;
+
+      //   case 'edit':
+      //     this.updateProfessional(result);
+      //     break;
+    });
   }
 }

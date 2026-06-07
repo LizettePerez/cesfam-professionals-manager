@@ -1,0 +1,251 @@
+<h2 mat-dialog-title>
+  @switch(data.action) {
+  @case('add') { Agregar profesional }
+  @case('edit') { Editar profesional }
+  @case('delete') { Eliminar profesional }
+  }
+</h2>
+
+<mat-dialog-content class="dialog-container">
+
+  @if (data.action !== 'delete') {
+
+  <!-- =========================
+     INFO PROFESIONAL
+========================= -->
+  <h3 class="sub-title">Información del profesional</h3>
+
+  <div class="row">
+
+    <mat-form-field appearance="outline" class="flex-2">
+      <mat-label>Buscar profesional</mat-label>
+
+      <input
+        matInput
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+        placeholder="Ej: Maria Gonzalez"
+        required />
+
+      @if (searchControl.touched && !searchControl.value) {
+      <mat-error>El nombre es obligatorio</mat-error>
+      }
+
+      @if (searchControl.value) {
+      <button matSuffix mat-icon-button (click)="clear()">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+
+      <mat-autocomplete #auto="matAutocomplete"
+        [displayWith]="displayProfessional"
+        (optionSelected)="selectProfessional($event.option.value)">
+
+        <!-- LISTA SIEMPRE DISPONIBLE -->
+        @for (p of filteredProfessionals; track p.id) {
+        <mat-option [value]="p" (onSelectionChange)="selectProfessional(p)"
+          class="capitalize">
+          {{ p.nombre }}
+        </mat-option>
+        }
+
+        <!-- EMPTY SOLO CUANDO HAY BÚSQUEDA -->
+        <!-- @if (searchControl.value &&
+        filteredProfessionals.length ===
+        0) {
+        <mat-option disabled>
+          No existe profesional
+        </mat-option>
+        } -->
+
+      </mat-autocomplete>
+    </mat-form-field>
+
+  </div>
+
+  <!-- =========================
+     ESPECIALIDAD
+========================= -->
+  <mat-form-field appearance="outline" required>
+    <mat-label>Especialidad</mat-label>
+    <mat-select [formControl]="specialtyControl" required
+      placeholder="Seleccionar especialidad">
+      <mat-option value="Médico">Médico</mat-option>
+      <mat-option value="Matrona">Matrona</mat-option>
+      <mat-option value="Enfermero">Enfermero/a</mat-option>
+      <mat-option value="Nutricionista">Nutricionista</mat-option>
+      <mat-option value="Trabajadora Social">Trabajadora Social</mat-option>
+      <mat-option value="TENS/Preparación">TENS/Preparación</mat-option>
+    </mat-select>
+    @if (specialtyControl.touched && specialtyControl.invalid) {
+    <mat-error>Debe seleccionar especialidad</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- =========================
+     ASIGNACIÓN BOX
+========================= -->
+
+  @if (isExistingProfessional) {
+  <h3 class="sub-title">Asignación de box</h3>
+
+  <div class="row">
+
+    <div class="flex-2">
+      <mat-checkbox [(ngModel)]="isSameBox" (change)="onSameBoxChange($event)">
+        Atiende en el mismo box todo el tiempo
+      </mat-checkbox>
+    </div>
+
+    @if (isSameBox) {
+    <div class="flex-input">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Box</mat-label>
+        <input matInput placeholder="Ej: 56">
+      </mat-form-field>
+    </div>
+    }
+
+  </div>
+  <mat-divider></mat-divider>
+
+  <!-- =========================
+     HORARIOS
+========================= -->
+  <mat-checkbox [(ngModel)]="useSchedule" (change)="onScheduleChange($event)">
+    Cambia de box según horario o día
+  </mat-checkbox>
+
+  @if (useSchedule) {
+
+  <div class="schedule-table">
+
+    <!-- HEADER -->
+    <div class="schedule-header">
+      <div>Días de la semana</div>
+      <div>Hora inicio</div>
+      <div>Hora fin</div>
+      <div>Box</div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- MAIN (OBLIGATORIO) -->
+    <!-- ========================= -->
+    <div class="schedule-row">
+
+      <div class="days-row">
+        @for (d of scheduleMain.days; track d.value) {
+        <mat-checkbox [(ngModel)]="d.checked"
+          [disabled]="isDayDisabledInMain(d.value)">
+          {{ d.label }}
+        </mat-checkbox>
+        }
+      </div>
+
+      <mat-form-field appearance="outline">
+        <input matInput type="time" [(ngModel)]="scheduleMain.start">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput type="time" [(ngModel)]="scheduleMain.end">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="scheduleMain.box" placeholder="Ej: 56">
+      </mat-form-field>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- ========================= -->
+    <!-- OPTIONAL (INDEPENDIENTE) -->
+    <!-- ========================= -->
+    @if (useOptionalSchedule) {
+
+    <div class="schedule-row">
+
+      <div class="days-row">
+        @for (d of scheduleOptional.days; track d.value) {
+        <mat-checkbox [(ngModel)]="d.checked"
+          [disabled]="isDayDisabledInOptional(d.value)">
+          {{ d.label }}
+        </mat-checkbox>
+        }
+      </div>
+
+      <mat-form-field appearance="outline">
+        <input matInput type="time" [(ngModel)]="scheduleOptional.start">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput type="time" [(ngModel)]="scheduleOptional.end">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="scheduleOptional.box" placeholder="Ej: 8">
+      </mat-form-field>
+
+    </div>
+
+    }
+
+  </div>
+
+  }
+
+  }
+  }
+
+  <!-- =========================
+     DELETE
+========================= -->
+  @if (data.action === 'delete') {
+
+  <div class="delete-warning">
+    <p>
+      ¿Deseas eliminar a
+      <strong>{{ data.professional?.nombre }}</strong>?
+    </p>
+    <p>También se eliminarán todos sus horarios.</p>
+  </div>
+
+  }
+
+</mat-dialog-content>
+
+<!-- =========================
+     ACTIONS
+========================= -->
+<mat-dialog-actions align="end">
+
+  <button mat-stroked-button mat-dialog-close class="btn-cancel">
+    Cancelar
+  </button>
+
+  @if (data.action === 'delete') {
+  <button mat-flat-button color="warn" class="btn-primary">
+    Eliminar
+  </button>
+  } @else {
+  @if (!isExistingProfessional) {
+  <button
+    mat-flat-button
+    class="btn-primary"
+    (click)="saveProfessional()"
+    [disabled]="isSaving || isExistingProfessional || !searchControl.value">
+
+    @if (isSaving) {
+    <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+    Agregar profesional
+    }
+  </button>
+  }@else {
+  <button mat-flat-button color="primary" class="btn-primary">
+    Asignar Box
+  </button>
+  }
+  }
+
+</mat-dialog-actions>
