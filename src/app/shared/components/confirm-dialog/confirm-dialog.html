@@ -46,20 +46,28 @@
       </button>
       }
 
-      <mat-autocomplete #auto="matAutocomplete"
+      <mat-autocomplete
+        #auto="matAutocomplete"
         [displayWith]="displayProfessional"
         (optionSelected)="selectProfessional($event.option.value)">
 
-        <!-- LISTA SIEMPRE DISPONIBLE -->
+        @if (!isExistingProfessional) {
         @for (p of filteredProfessionals; track p.id) {
-        <mat-option [value]="p" (onSelectionChange)="selectProfessional(p)"
-          class="capitalize">
+        <mat-option [value]="p" class="capitalize">
           {{ p.nombre }}
         </mat-option>
+        }
         }
 
       </mat-autocomplete>
     </mat-form-field>
+
+    @if (data.action === 'edit') {
+    <button mat-raised-button color="warn" class="btn-danger"
+      (click)="confirmDeleteProfessional()">
+      Eliminar
+    </button>
+    }
 
   </div>
 

@@ -85,14 +85,15 @@ export class ConfirmDialog implements OnInit {
     if (this.data.action === 'edit' && this.data.professional) {
       const p = this.data.professional;
 
+      this.isExistingProfessional = true; // ✔️ esto es lo que manda
+
       this.selectedProfessional = p;
 
-      // nombre
       this.searchControl.setValue(p, { emitEvent: false });
       this.searchControl.disable({ emitEvent: false });
 
-      // 🔥 ESPECIALIDAD (ESTO TE FALTABA)
       this.specialtyControl.setValue(p.especialidad, { emitEvent: false });
+      this.specialtyControl.disable({ emitEvent: false });
 
       return;
     }
