@@ -27,7 +27,7 @@ export class SectorCard {
   visibleCount = 6;
 
   get filteredProfessionals() {
-    const base = this.professionals; // 👈 SIN FILTRO
+    const base = this.professionals;
 
     if (!this.searchTerm) return base;
 
