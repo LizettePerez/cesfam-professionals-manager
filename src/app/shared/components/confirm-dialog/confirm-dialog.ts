@@ -85,8 +85,7 @@ export class ConfirmDialog implements OnInit {
     if (this.data.action === 'edit' && this.data.professional) {
       const p = this.data.professional;
 
-      this.isExistingProfessional = true; // ✔️ esto es lo que manda
-
+      this.isExistingProfessional = true;
       this.selectedProfessional = p;
 
       this.searchControl.setValue(p, { emitEvent: false });
@@ -95,7 +94,42 @@ export class ConfirmDialog implements OnInit {
       this.specialtyControl.setValue(p.especialidad, { emitEvent: false });
       this.specialtyControl.disable({ emitEvent: false });
 
-      return;
+      /* =========================
+   🔥 LOAD SCHEDULE FROM BACKEND
+========================= */
+
+      // MAIN (SI VIENE DEL BACK)
+      this.scheduleMain.box = p.box ?? '';
+      this.scheduleMain.start = (p as any).start_time ?? null;
+      this.scheduleMain.end = (p as any).end_time ?? null;
+
+      // DAYS MAIN (IMPORTANTE: MARCAR CHECKED)
+      const days = (p.days ?? []).map(String);
+
+      this.scheduleMain.days = this.scheduleMain.days.map((d) => ({
+        ...d,
+        checked: days.includes(d.value),
+      }));
+
+      // =========================
+      // OPTIONAL (si existe en backend)
+      // =========================
+      if ((p as any).optional) {
+        const opt = (p as any).optional;
+
+        this.scheduleOptional.box = opt.box ?? '';
+        this.scheduleOptional.start = opt.start_time ?? null;
+        this.scheduleOptional.end = opt.end_time ?? null;
+
+        if (opt.days) {
+          this.scheduleOptional.days = this.scheduleOptional.days.map((d) => ({
+            ...d,
+            checked: opt.days.includes(d.value),
+          }));
+        }
+
+        this.boxMode = 'time'; // o el que corresponda
+      }
     }
 
     // CREATE MODE

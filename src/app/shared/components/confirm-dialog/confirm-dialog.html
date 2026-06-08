@@ -9,7 +9,7 @@
   }
   }
 
-  @case('edit') { Editar profesional }
+  @case('edit') { Editar box asignado }
   @case('delete') { Eliminar box asignado }
 
   }
@@ -94,7 +94,7 @@
      ASIGNACIÓN BOX
 ========================= -->
 
-  @if (isExistingProfessional) {
+  @if (isExistingProfessional && data.action !== 'edit') {
   <h3 class="sub-title">Asignación de box</h3>
 
   <div class="row">
@@ -241,6 +241,25 @@
 
   }
 
+  } @else {
+  <h3 class="sub-title">Cambio de box</h3>
+
+  <div class="row">
+
+    <p class="hint-text flex-2">
+      Este profesional ya tiene una asignación. <br>Aquí puedes modificar
+      únicamente
+      su box actual.
+    </p>
+
+    <div class="flex-input">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Box</mat-label>
+        <input matInput placeholder="Ej: 56" [(ngModel)]="scheduleMain.box">
+      </mat-form-field>
+    </div>
+
+  </div>
   }
   }
 
