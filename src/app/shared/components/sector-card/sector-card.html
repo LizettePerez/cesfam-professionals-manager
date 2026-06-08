@@ -4,9 +4,9 @@
   <div class="sector-card__header">
     <div class="sector-card__header-left">
       <h2>{{ sectorName }}</h2>
-      <span class="sector-card__count">
+      <!-- <span class="sector-card__count">
         {{ professionals.length }}
-      </span>
+      </span> -->
     </div>
     <div class="sector-card__header-right">
       <button matMiniFab [ngClass]="sectorType" class="app-mini-fab-custom"
@@ -23,8 +23,8 @@
         <tr>
           <th class="capitalize">Profesional</th>
           <th class="capitalize">Especialidad</th>
-          <th>Horario</th>
           <th>Box</th>
+          <th>Horario</th>
           <!-- <th class="text-center">Duración</th>
           <th class="text-center">Espera máx.</th> -->
           <th></th>
@@ -37,6 +37,7 @@
         <tr>
           <td class="capitalize">{{ p.nombre }}</td>
           <td class="capitalize">{{ p.especialidad }}</td>
+          <td>{{ p.box }}</td>
           <td>
             @if (p.start_time != null && p.start_time !== '') {
             <span class="schedule-chip time">
@@ -44,15 +45,18 @@
             </span>
 
             } @else if (p.days && p.days.length > 0) {
-            <span class="schedule-chip days">
-              {{ formatDays(p.days) }}
+            <span class="days-container">
+              @for (d of p.days; track $index) {
+              <span class="day-chip">
+                {{ formatDay(d) }}
+              </span>
+              }
             </span>
 
             } @else {
-            <span class="schedule-chip empty">—</span>
+            <span class="schedule-chip empty"></span>
             }
           </td>
-          <td>{{ p.box }}</td>
           <td>
             <button matMiniFab class="app-mini-fab app-mini-fab-edit"
               (click)="confirmDialog('edit', p)">

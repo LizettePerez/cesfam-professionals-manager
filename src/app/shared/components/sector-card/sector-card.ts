@@ -93,9 +93,7 @@ export class SectorCard implements OnChanges {
     });
   }
 
-  formatDays(days: number[] | null | undefined): string {
-    if (!days?.length) return '';
-
+  formatDay(day: number): string {
     const map: Record<number, string> = {
       0: 'L',
       1: 'M',
@@ -105,9 +103,6 @@ export class SectorCard implements OnChanges {
       5: 'S',
     };
 
-    return days
-      .map((d) => map[d])
-      .filter(Boolean)
-      .join(' ');
+    return map[day] ?? '';
   }
 }

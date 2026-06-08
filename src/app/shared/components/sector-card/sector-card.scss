@@ -176,3 +176,20 @@
   background: #f5f5f5;
   color: #999;
 }
+
+.days-container {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.day-chip {
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
