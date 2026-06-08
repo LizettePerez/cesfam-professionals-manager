@@ -75,9 +75,15 @@
 
     </table>
 
-    <div class="sector-card__footer" *ngIf="remainingCount > 0">
-      <button mat-button (click)="loadMore()" [ngClass]="sectorType">
+    <div class="sector-card__footer" *ngIf="filteredProfessionals.length > 6">
+      <button mat-button (click)="toggleExpand()" [ngClass]="sectorType">
+
+        @if (!isExpanded) {
         Ver todos ({{ remainingCount }})
+        } @else {
+        Ver menos
+        }
+
       </button>
     </div>
   </div>

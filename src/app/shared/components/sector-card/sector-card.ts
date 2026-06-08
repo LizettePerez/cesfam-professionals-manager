@@ -61,8 +61,15 @@ export class SectorCard implements OnChanges {
     return this.filteredProfessionals.length > 0;
   }
 
-  loadMore() {
-    this.visibleCount = this.filteredProfessionals.length;
+  isExpanded = false;
+  readonly defaultVisibleCount = 6;
+
+  toggleExpand() {
+    this.isExpanded = !this.isExpanded;
+    this.visibleCount = this.isExpanded
+      ? this.filteredProfessionals.length
+      : this.defaultVisibleCount;
+
     this.updateVisible();
   }
 
