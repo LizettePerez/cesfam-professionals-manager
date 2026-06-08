@@ -7,7 +7,7 @@ export interface Professional {
   box: string;
 
   schedule_id?: number | null;
-  start_time?: string | null;
-  end_time?: string | null;
-  days?: number[] | null;
+  days: number[] | null;
+  start_time: string | null;
+  end_time: string | null;
 }

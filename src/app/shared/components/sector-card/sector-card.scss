@@ -151,3 +151,28 @@
 .app-mini-fab-custom:hover {
   filter: brightness(0.90);
 }
+
+.schedule-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #eee;
+}
+
+.schedule-chip.time {
+  background: #d1e7ff;
+  color: #084298;
+}
+
+.schedule-chip.days {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.schedule-chip.empty {
+  background: #f5f5f5;
+  color: #999;
+}

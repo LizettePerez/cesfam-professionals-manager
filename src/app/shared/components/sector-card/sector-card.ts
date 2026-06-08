@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +13,7 @@ import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
   templateUrl: './sector-card.html',
   styleUrl: './sector-card.scss',
 })
-export class SectorCard {
+export class SectorCard implements OnChanges {
   @Input() sectorName!: string;
   @Input() sectorType!: string;
   @Input() searchTerm = '';
@@ -21,6 +21,10 @@ export class SectorCard {
 
   @Input() professionals: Professional[] = [];
   @Output() refreshSector = new EventEmitter<number>();
+
+  ngOnChanges() {
+    this.updateVisible();
+  }
 
   constructor(private dialog: MatDialog) {}
 
@@ -42,8 +46,11 @@ export class SectorCard {
     );
   }
 
-  get visibleProfessionals() {
-    return this.filteredProfessionals.slice(0, this.visibleCount);
+  visibleProfessionals: Professional[] = [];
+
+  private updateVisible() {
+    const base = this.filteredProfessionals;
+    this.visibleProfessionals = base.slice(0, this.visibleCount);
   }
 
   get remainingCount() {
@@ -56,6 +63,7 @@ export class SectorCard {
 
   loadMore() {
     this.visibleCount = this.filteredProfessionals.length;
+    this.updateVisible();
   }
 
   confirmDialog(action: 'add' | 'edit' | 'delete', professional?: Professional) {
@@ -83,5 +91,23 @@ export class SectorCard {
       if (!result?.success) return;
       this.refreshSector.emit(this.sectorId);
     });
+  }
+
+  formatDays(days: number[] | null | undefined): string {
+    if (!days?.length) return '';
+
+    const map: Record<number, string> = {
+      0: 'L',
+      1: 'M',
+      2: 'Mi',
+      3: 'J',
+      4: 'V',
+      5: 'S',
+    };
+
+    return days
+      .map((d) => map[d])
+      .filter(Boolean)
+      .join(' ');
   }
 }
