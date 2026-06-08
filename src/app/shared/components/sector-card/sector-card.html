@@ -1,5 +1,5 @@
 @if (hasResults) {
-<div class="sector-card" [ngClass]="sectorType" *ngIf="hasResults">
+<div class="sector-card" [ngClass]="sectorType">
 
   <div class="sector-card__header">
     <div class="sector-card__header-left">
@@ -9,7 +9,8 @@
       </span>
     </div>
     <div class="sector-card__header-right">
-      <button matMiniFab [ngClass]="sectorType" class="app-mini-fab-custom" (click)="confirmDialog('add')">
+      <button matMiniFab [ngClass]="sectorType" class="app-mini-fab-custom"
+        (click)="confirmDialog('add')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -31,7 +32,7 @@
       </thead>
 
       <tbody>
-        @for (p of visibleProfessionals; track p.id) {
+        @for (p of visibleProfessionals; track $index) {
         <tr>
           <td class="capitalize">{{ p.nombre }}</td>
           <td class="capitalize">{{ p.especialidad }}</td>

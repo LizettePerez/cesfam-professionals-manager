@@ -9,6 +9,11 @@ export interface CreateScheduleDto {
   end_time: string | null;
   days: string[] | null;
 }
+
+export interface UpdateBoxDto {
+  box: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -80,5 +85,13 @@ export class ProfessionalsService {
 
   deleteSchedulesByProfessional(professionalId: number) {
     return this.api.delete<any>(`schedules/professional/${professionalId}`);
+  }
+
+  updateSchedule(scheduleId: number, data: CreateScheduleDto) {
+    return this.api.put<any>(`schedules/${scheduleId}`, data);
+  }
+
+  updateScheduleBox(scheduleId: number, box: string) {
+    return this.api.patch<any>(`schedules/${scheduleId}/box`, { box });
   }
 }

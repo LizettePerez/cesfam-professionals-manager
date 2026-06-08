@@ -24,4 +24,8 @@ export class ApiService {
   delete<T>(endpoint: string) {
     return firstValueFrom(this.http.delete<T>(`${this.baseUrl}/${endpoint}`));
   }
+
+  patch<T>(endpoint: string, body: any) {
+    return firstValueFrom(this.http.patch<T>(`${this.baseUrl}/${endpoint}`, body));
+  }
 }

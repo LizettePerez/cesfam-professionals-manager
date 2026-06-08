@@ -242,6 +242,7 @@
   }
 
   } @else {
+  @if (isExistingProfessional && data.action === 'edit'){
   <h3 class="sub-title">Cambio de box</h3>
 
   <div class="row">
@@ -260,6 +261,7 @@
     </div>
 
   </div>
+  }
   }
   }
 
@@ -327,6 +329,22 @@
     }
   </button>
   }@else {
+
+  @if (isExistingProfessional && data.action === 'edit') {
+  <button
+    mat-flat-button
+    class="btn-primary"
+    (click)="updateScheduleFromDialog()"
+    [disabled]="isSaving">
+
+    @if (isSaving) {
+    <mat-spinner diameter="18"></mat-spinner>
+    } @else {
+    Asignar nuevo Box
+    }
+
+  </button>
+  }@else {
   <button
     mat-flat-button
     class="btn-primary"
@@ -340,6 +358,8 @@
     }
 
   </button>
+  }
+
   }
   }
 

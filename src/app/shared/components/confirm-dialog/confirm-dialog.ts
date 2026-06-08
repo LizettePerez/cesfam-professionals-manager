@@ -579,4 +579,54 @@ export class ConfirmDialog implements OnInit {
       this.isDeleting = false;
     }
   }
+
+  async updateScheduleFromDialog() {
+    if (this.isSaving) return;
+    this.isSaving = true;
+
+    try {
+      const p = this.data.professional!;
+      const scheduleId = p.schedule_id;
+
+      if (!scheduleId) {
+        this.snackBar.open('No hay schedule_id', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        return;
+      }
+
+      const newBox = this.scheduleMain.box;
+
+      if (!newBox) {
+        this.snackBar.open('Debes ingresar box', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        return;
+      }
+
+      // 🔥 SOLO ENVÍAS BOX
+      await this.professionalsService.updateScheduleBox(scheduleId, newBox);
+
+      this.snackBar.open('Box actualizado correctamente', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
+      });
+
+      this.dialogRef.close({
+        action: 'edit',
+        success: true,
+        box: newBox,
+      });
+    } catch (e: any) {
+      this.snackBar.open(e?.error?.message || 'Error al actualizar box', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    } finally {
+      this.isSaving = false;
+      this.cdr.detectChanges();
+    }
+  }
 }
