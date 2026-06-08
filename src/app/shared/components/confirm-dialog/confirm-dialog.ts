@@ -419,9 +419,10 @@ export class ConfirmDialog implements OnInit {
     // DAY MODE
     // =========================
     if (this.boxMode === 'day') {
-      const box = this.scheduleMain.box?.trim();
+      const main = this.scheduleMain;
 
-      const days = this.scheduleMain.days.filter((d) => d.checked).map((d) => d.value);
+      const box = main.box;
+      const days = main.days.filter((d) => d.checked).map((d) => d.value);
 
       if (!box || days.length === 0) {
         this.snackBar.open('Debes seleccionar días y box', 'Cerrar', {
@@ -431,8 +432,60 @@ export class ConfirmDialog implements OnInit {
         return;
       }
 
-      payload.box = box;
-      payload.days = days;
+      const professional_id = this.selectedProfessional.id;
+
+      this.isSaving = true;
+
+      try {
+        // =========================
+        // 🔵 MAIN REQUEST
+        // =========================
+        await this.professionalsService.createSchedule({
+          professional_id,
+          box: main.box,
+          start_time: main.start,
+          end_time: main.end,
+          days: main.days.filter((d) => d.checked).map((d) => d.value), // 👈 STRING
+        });
+
+        // =========================
+        // 🔵 OPTIONAL REQUEST
+        // =========================
+        const opt = this.scheduleOptional;
+
+        const optDays = opt.days.filter((d) => d.checked).map((d) => d.value);
+
+        const hasOptional = opt.box && optDays.length > 0;
+
+        if (hasOptional) {
+          await this.professionalsService.createSchedule({
+            professional_id,
+            box: opt.box,
+            start_time: opt.start,
+            end_time: opt.end,
+            days: opt.days.filter((d) => d.checked).map((d) => d.value), // 👈 STRING
+          });
+        }
+
+        this.snackBar.open('Box asignado correctamente', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+
+        this.dialogRef.close({
+          action: 'edit',
+          professional: this.data.professional,
+          success: true,
+        });
+      } catch (e: any) {
+        this.snackBar.open(e?.error?.message || 'Error al asignar box', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+      } finally {
+        this.isSaving = false;
+        this.cdr.detectChanges();
+      }
     }
 
     this.isSaving = true;

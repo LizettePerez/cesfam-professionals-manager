@@ -7,7 +7,7 @@ export interface CreateScheduleDto {
   box: string;
   start_time: string | null;
   end_time: string | null;
-  days: number[] | null;
+  days: string[] | null;
 }
 @Injectable({
   providedIn: 'root',
