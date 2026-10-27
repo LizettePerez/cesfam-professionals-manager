@@ -22,13 +22,21 @@
   --sector-5-bg: #f5f3ff;
   --sector-transversal-bg: #f1f5f9;
 
-  --danger: #dc2626;
-  --danger-hover: #b91c1c;
+  --btn-primary: #263449;
+  --btn-primary-hover: #172033;
+  --btn-primary-ring: rgb(38 52 73 / 25%);
 
-  --border-color: #e5e7eb;
+  --btn-border: #dbe3ee;
+  --btn-soft-hover: #f0f4f9;
+  --btn-text: #263449;
+  --btn-muted: #64748b;
 
-  --primary: #3b82f6;
-  --primary-hover: #1623d8;
+  --btn-danger: #c24141;
+  --btn-danger-hover: #a63535;
+  --btn-danger-ring: rgb(194 65 65 / 25%);
+
+  --btn-disabled-bg: #e2e8f0;
+  --btn-disabled-text: #94a3b8;
 }
 
 /* =========================
@@ -118,79 +126,83 @@ select {
    BOTONES
 ========================= */
 
-.btn-primary {
-  background: var(--primary) !important;
-  color: white !important;
-  border-radius: 12px !important;
-  transition: .2s;
-  padding: 20px 15px !important;
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover) !important;
-}
-
-.btn-danger {
-  background: #dc2626 !important;
-  color: white !important;
-  border-radius: 12px !important;
-  transition: .2s;
-  padding: 20px 15px !important;
-}
-
-.btn-danger:hover {
-  background: #b91c1c !important;
-}
-
-.btn-secondary {
-  border-radius: 12px !important;
-  border: 1px solid #d1d5db !important;
-  background: #fff !important;
-  color: var(--primary-hover) !important;
-  transition: .2s;
-  padding: 20px 15px !important;
-}
-
-.btn-secondary:hover {
-  background: #e9edf1 !important;
-}
-
+.btn-primary,
+.btn-danger,
+.btn-secondary,
 .btn-cancel {
   border-radius: 12px !important;
-  border: 1px solid #d1d5db !important;
-  background: #fff !important;
-  color: gray !important;
-  transition: .2s;
   padding: 20px 15px !important;
+  font-weight: 650 !important;
+  box-shadow: none !important;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
+/* Principal: guardar, confirmar, agregar */
+.btn-primary {
+  background: var(--btn-primary) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background: var(--btn-primary-hover) !important;
+}
+.btn-primary:focus-visible {
+  box-shadow: 0 0 0 3px var(--btn-primary-ring) !important;
+}
+
+/* Peligro: eliminar */
+.btn-danger {
+  background: var(--btn-danger) !important;
+  color: #fff !important;
+}
+.btn-danger:hover {
+  background: var(--btn-danger-hover) !important;
+}
+.btn-danger:focus-visible {
+  box-shadow: 0 0 0 3px var(--btn-danger-ring) !important;
+}
+
+/* Secundario: acciones alternativas */
+.btn-secondary {
+  background: #fff !important;
+  border: 1px solid var(--btn-border) !important;
+  color: var(--btn-text) !important;
+}
+.btn-secondary:hover {
+  background: var(--btn-soft-hover) !important;
+  border-color: #c5d0de !important;
+}
+.btn-secondary:focus-visible {
+  box-shadow: 0 0 0 3px var(--btn-primary-ring) !important;
+}
+
+/* Cancelar: el más discreto */
+.btn-cancel {
+  background: #fff !important;
+  border: 1px solid var(--btn-border) !important;
+  color: var(--btn-muted) !important;
+}
 .btn-cancel:hover {
-  color: var(--primary-hover) !important;
+  background: var(--btn-soft-hover) !important;
+  color: var(--btn-text) !important;
+}
+.btn-cancel:focus-visible {
+  box-shadow: 0 0 0 3px var(--btn-primary-ring) !important;
 }
 
-.btn-primary:disabled {
-  background: #93c5fd !important;
-  /* azul más claro */
-  color: #ffffff !important;
+/* Deshabilitados */
+.btn-primary:disabled,
+.btn-danger:disabled {
+  background: var(--btn-disabled-bg) !important;
+  color: var(--btn-disabled-text) !important;
   cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
 }
 
-.btn-secondary:disabled {
-  background: #f3f4f6 !important;
-  color: #9ca3af !important;
-  border: 1px solid #e5e7eb !important;
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-
+.btn-secondary:disabled,
 .btn-cancel:disabled {
-  background: #f9fafb !important;
-  color: #d1d5db !important;
-  border: 1px solid #e5e7eb !important;
+  background: #f8fafc !important;
+  border-color: #e8edf3 !important;
+  color: #cbd5e1 !important;
   cursor: not-allowed;
-  opacity: 0.8;
 }
 
 
