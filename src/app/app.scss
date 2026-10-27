@@ -1,6 +1,19 @@
-.loading-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
+// .loading-page {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 90vh;
+// }
+
+
+.sectors-container {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .sectors-container {
+    grid-template-columns: 1fr;
+  }
 }

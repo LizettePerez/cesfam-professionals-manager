@@ -25,7 +25,7 @@ export class App implements OnInit {
     { name: 'Sector 3', type: 's3', id: 3, professionals: [] },
     { name: 'Sector 4', type: 's4', id: 4, professionals: [] },
     { name: 'Sector 5', type: 's5', id: 5, professionals: [] },
-    { name: 'Transversal', type: 'transversal', id: 6, professionals: [] },
+    { name: 'Agregar profesional', type: 'transversal', id: 6, professionals: [] },
   ];
 
   constructor(
@@ -68,34 +68,44 @@ export class App implements OnInit {
     this.loading = true;
 
     try {
-      const now = new Date().toISOString();
+      const results = await this.professionalsService.getDashboard();
 
-      const requests = this.sectors.map((sector) =>
-        this.professionalsService.getDashboard(sector.id, now),
-      );
-
-      const results = await Promise.all(requests);
-      console.log('RESULTADO: ', results);
-
-      this.sectors = this.sectors.map((sector, index) => ({
+      this.sectors = this.sectors.map((sector) => ({
         ...sector,
-        professionals: results[index],
+        professionals: results.filter((p: Professional) => Number(p.sector) === sector.id),
       }));
+    } catch (error) {
+      console.error('Error al cargar profesionales:', error);
     } finally {
       this.loading = false;
       this.cdr.detectChanges();
     }
   }
 
+  get allProfessionals(): Professional[] {
+    return this.sectors.flatMap((sector) => sector.professionals);
+  }
+
+  get filteredProfessionals(): Professional[] {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    if (!term) return this.allProfessionals;
+
+    return this.allProfessionals.filter((p) => p.nombre.toLowerCase().includes(term));
+  }
+
   async reloadSector(sectorId: number) {
-    const now = new Date().toISOString();
+    try {
+      const updated = await this.professionalsService.getDashboard();
 
-    const updated = await this.professionalsService.getDashboard(sectorId, now);
+      this.sectors = this.sectors.map((sector) => ({
+        ...sector,
+        professionals: updated.filter((p: Professional) => Number(p.sector) === sector.id),
+      }));
 
-    this.sectors = this.sectors.map((sector) =>
-      sector.id === sectorId ? { ...sector, professionals: updated } : sector,
-    );
-
-    this.cdr.detectChanges();
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error al actualizar el sector:', error);
+    }
   }
 }

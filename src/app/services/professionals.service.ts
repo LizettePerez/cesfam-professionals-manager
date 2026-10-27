@@ -71,8 +71,12 @@ export class ProfessionalsService {
     return enriched;
   }
 
-  getDashboard(sectorId: number, dt: string) {
-    return this.api.get<any>(`dashboard?sector_id=${sectorId}&dt=${dt}`);
+  // getDashboard(sectorId: number, dt: string) {
+  //   return this.api.get<any>(`dashboard?sector_id=${sectorId}&dt=${dt}`);
+  // }
+
+  getDashboard() {
+    return this.api.get<any>(`dashboard/`);
   }
 
   deleteProfessional(id: number) {

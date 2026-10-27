@@ -1,93 +1,99 @@
-@if (hasResults) {
-<div class="sector-card" [ngClass]="sectorType">
 
-  <div class="sector-card__header">
-    <div class="sector-card__header-left">
+@if (hasResults) {
+  <div class="sector-card" [ngClass]="sectorType">
+
+    <div class="sector-card__header">
       <h2>{{ sectorName }}</h2>
-      <!-- <span class="sector-card__count">
-        {{ professionals.length }}
-      </span> -->
-    </div>
-    <div class="sector-card__header-right">
-      <button matMiniFab [ngClass]="sectorType" class="app-mini-fab-custom"
+
+      <button
+        matMiniFab
+        [ngClass]="sectorType"
+        class="app-mini-fab-custom"
+        aria-label="Agregar profesional"
         (click)="confirmDialog('add')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
 
-  </div>
+    <div class="sector-card__body">
+      <div class="professionals-list">
 
-  <div class="sector-card__body">
-    <table class="sector-table">
-      <thead>
-        <tr>
-          <th class="capitalize">Profesional</th>
-          <th class="capitalize">Especialidad</th>
-          <th>Box</th>
-          <th>Horario</th>
-          <!-- <th class="text-center">Duración</th>
-          <th class="text-center">Espera máx.</th> -->
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
+        @for (p of visibleProfessionals; track p.id) {
+          <article class="professional-card">
 
-      <tbody>
-        @for (p of visibleProfessionals; track $index) {
-        <tr>
-          <td class="capitalize">{{ p.nombre }}</td>
-          <td class="capitalize">{{ p.especialidad }}</td>
-          <td class="capitalize">{{ p.box }}</td>
-          <td>
-            @if (p.start_time != null && p.start_time !== '') {
-            <span class="schedule-chip time">
-              {{ p.start_time }}
-            </span>
+            <div class="professional-card__info">
+              <div class="professional-card__name">
+                {{ p.nombre }}
+              </div>
 
-            } @else if (p.days && p.days.length > 0) {
-            <span class="days-container">
-              @for (d of p.days; track $index) {
-              <span class="day-chip">
-                {{ formatDay(d) }}
-              </span>
-              }
-            </span>
+              <div class="professional-card__details">
+                <div class="professional-card__specialty">
+                  <span>{{ p.especialidad }}</span>
 
+                  @if (p.start_time) {
+                    <span class="schedule-chip time">
+                      {{ p.start_time }}
+                      @if (p.end_time) {
+                        - {{ p.end_time }}
+                      }
+                    </span>
+                  } @else if (p.days && p.days.length > 0) {
+                    <span class="days-container">
+                      @for (d of p.days; track $index) {
+                        <span class="day-chip">
+                          {{ formatDay(d) }}
+                        </span>
+                      }
+                    </span>
+                  }
+                </div>
+
+                <div class="professional-card__box">
+                  <span class="box-label">Box</span>
+                  <span>{{ p.box || 'Sin asignar' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="professional-card__actions">
+              <button
+                matMiniFab
+                class="app-mini-fab app-mini-fab-edit"
+                aria-label="Editar profesional"
+                (click)="confirmDialog('edit', p)">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                matMiniFab
+                class="app-mini-fab app-mini-fab-delete"
+                aria-label="Eliminar profesional"
+                (click)="confirmDialog('delete', p)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+          </article>
+        }
+
+      </div>
+
+      @if (filteredProfessionals.length > 6) {
+        <div class="sector-card__footer">
+          <button
+            mat-button
+            [ngClass]="sectorType"
+            (click)="toggleExpand()">
+
+            @if (!isExpanded) {
+              Ver todos ({{ remainingCount }})
             } @else {
-            <span class="schedule-chip empty"></span>
+              Ver menos
             }
-          </td>
-          <td>
-            <button matMiniFab class="app-mini-fab app-mini-fab-edit"
-              (click)="confirmDialog('edit', p)">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-          <td>
-            <button matMiniFab class="app-mini-fab app-mini-fab-delete"
-              (click)="confirmDialog('delete', p)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </tr>
-        }
-      </tbody>
 
-    </table>
-
-    <div class="sector-card__footer" *ngIf="filteredProfessionals.length > 6">
-      <button mat-button (click)="toggleExpand()" [ngClass]="sectorType">
-
-        @if (!isExpanded) {
-        Ver todos ({{ remainingCount }})
-        } @else {
-        Ver menos
-        }
-
-      </button>
+          </button>
+        </div>
+      }
     </div>
   </div>
-</div>
-}@else {
-
 }
