@@ -102,12 +102,12 @@ export class SectorCard implements OnChanges {
 
   formatDay(day: number): string {
     const map: Record<number, string> = {
-      0: 'L',
-      1: 'M',
-      2: 'Mi',
-      3: 'J',
-      4: 'V',
-      5: 'S',
+      0: 'Lunes',
+      1: 'Martes',
+      2: 'Miercoles',
+      3: 'Jueves',
+      4: 'Viernes',
+      5: 'Sabado',
     };
 
     return map[day] ?? '';

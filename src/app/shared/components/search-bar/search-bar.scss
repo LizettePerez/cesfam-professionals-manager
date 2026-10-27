@@ -1,0 +1,50 @@
+
+.search-field {
+  width: 100%;
+  max-width: 460px;
+  font-size: 14px;
+
+  .search-icon {
+    color: #64748b;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .clear-button {
+    color: #64748b;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+      color: #dc2626;
+      background-color: #fee2e2;
+    }
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+/* Fondo y bordes del campo */
+:host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
+  background-color: #ffffff;
+  border-radius: 14px;
+}
+
+:host ::ng-deep .search-field .mdc-notched-outline__leading,
+:host ::ng-deep .search-field .mdc-notched-outline__notch,
+:host ::ng-deep .search-field .mdc-notched-outline__trailing {
+  border-color: #dbe3ee;
+  transition: border-color 0.2s ease;
+}
+
+:host ::ng-deep .search-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .search-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .search-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #2563eb;
+  border-width: 2px;
+}
+
+:host ::ng-deep .search-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}

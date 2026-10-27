@@ -1,15 +1,25 @@
-<mat-form-field appearance="outline" class="w-full">
-  <mat-label>
-    Buscar por nombre
-  </mat-label>
 
-  <input matInput [formControl]="searchControl">
+<mat-form-field appearance="outline" class="search-field">
+  <mat-label>Buscar profesional por nombre</mat-label>
 
-  @if(searchControl.value) {
-  <button matSuffix mat-icon-button (click)="clear()">
+  <mat-icon matPrefix class="search-icon">search</mat-icon>
 
-    <mat-icon>close</mat-icon>
+  <input
+    matInput
+    [formControl]="searchControl"
+    autocomplete="off"
+  />
 
-  </button>
+  @if (searchControl.value) {
+    <button
+      matSuffix
+      mat-icon-button
+      type="button"
+      class="clear-button"
+      aria-label="Limpiar búsqueda"
+      (click)="clear()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   }
 </mat-form-field>

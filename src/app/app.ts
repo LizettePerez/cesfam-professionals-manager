@@ -1,5 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
 import { ProfessionalsService } from './services/professionals.service';
+import { ConfirmDialog } from './shared/components/confirm-dialog/confirm-dialog';
 import { SearchBar } from './shared/components/search-bar/search-bar';
 import { SectorCard } from './shared/components/sector-card/sector-card';
 import { Professional } from './shared/models/professional.model';
@@ -7,7 +10,7 @@ import { Professional } from './shared/models/professional.model';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [SearchBar, SectorCard],
+  imports: [SearchBar, SectorCard, MatIcon],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -31,6 +34,7 @@ export class App implements OnInit {
   constructor(
     private professionalsService: ProfessionalsService,
     private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
   ) {}
 
   async ngOnInit() {
@@ -108,4 +112,31 @@ export class App implements OnInit {
       console.error('Error al actualizar el sector:', error);
     }
   }
+
+
+addProfessional() {
+  const sectorId = 6;
+
+  const dialogRef = this.dialog.open(ConfirmDialog, {
+    width: '800px',
+    maxWidth: '95vw',
+    data: {
+      action: 'add',
+      sectorId
+    }
+  });
+
+  dialogRef.componentInstance.actionEvent?.subscribe((res: { action: string; }) => {
+    if (res.action === 'create') {
+      void this.reloadDashboard();
+    }
+  });
+
+  dialogRef.afterClosed().subscribe((result: { success: any; }) => {
+    if (result?.success) {
+      void this.reloadDashboard();
+    }
+  });
+}
+
 }

@@ -1,25 +1,38 @@
 
 <main class="main-container">
   @if (!loading) {
-    <app-search-bar
-      (search)="onSearch($event)">
-    </app-search-bar>
 
-    <div class="sectors-container">
-      @for (sector of filteredSectors; track sector.id) {
-        <app-sector-card
-          [sectorName]="sector.name"
-          [sectorType]="sector.type"
-          [sectorId]="sector.id"
-          [professionals]="sector.professionals"
-          [searchTerm]="searchTerm"
-          (refreshSector)="reloadSector($event)">
-        </app-sector-card>
-      }
+  <div class="search-toolbar">
+    <div class="search-toolbar__input">
+      <app-search-bar
+        (search)="onSearch($event)">
+      </app-search-bar>
     </div>
+
+    <button
+      mat-mini-fab
+      class="app-mini-fab-custom"
+      aria-label="Agregar profesional"
+      (click)="addProfessional()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div class="sectors-container">
+    @for (sector of filteredSectors; track sector.id) {
+    <app-sector-card
+      [sectorName]="sector.name"
+      [sectorType]="sector.type"
+      [sectorId]="sector.id"
+      [professionals]="sector.professionals"
+      [searchTerm]="searchTerm"
+      (refreshSector)="reloadSector($event)">
+    </app-sector-card>
+    }
+  </div>
   } @else {
-    <div class="loading-page">
-      <img src="/gif/loading.gif" alt="Cargando profesionales" />
-    </div>
+  <div class="loading-page">
+    <img src="/gif/loading.gif" alt="Cargando profesionales" />
+  </div>
   }
 </main>

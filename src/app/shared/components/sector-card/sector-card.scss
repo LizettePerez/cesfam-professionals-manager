@@ -1,232 +1,123 @@
-// .sector-card {
-//   background: white;
-//   border: 1px solid #e2e8f0;
-//   border-radius: 16px;
-//   overflow: hidden;
-// }
-
-// .sector-card__header {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 1rem 1.25rem;
-//   border-bottom: 1px solid #e2e8f0;
-//   font-weight: 600;
-//   text-transform: uppercase;
-// }
-
-// .sector-card__header-left {
-//   display: flex;
-//   gap: 0.75rem;
-// }
-
-// .sector-card__header-right {
-//   display: flex;
-//   gap: 0.75rem;
-// }
-
-// .sector-card__body {
-//   padding: 0 0.5rem 1rem;
-// }
-
-// .sector-table {
-//   width: 100%;
-//   border-collapse: collapse;
-//   font-size: 14px;
-// }
-
-// .sector-table th {
-//   text-align: left;
-//   padding: 10px;
-//   border-bottom: 1px solid #e2e8f0;
-//   color: #64748b;
-// }
-
-// .sector-table td {
-//   padding: 10px;
-//   border-bottom: 1px solid #f1f5f9;
-// }
-
-// .sector-table tr:hover {
-//   background: #f8fafc;
-// }
-
-// .sector-table th.text-center,
-// .sector-table td.text-center {
-//   text-align: center;
-// }
-
-// .sector-table tbody tr:last-child td {
-//   border-bottom: none;
-// }
-
-
-// .s1 {
-//   --icon-color: var(--sector-1);
-//   --accent: var(--sector-1);
-//   --accent-bg: var(--sector-1-bg);
-// }
-
-// .s2 {
-//   --icon-color: var(--sector-2);
-//   --accent: var(--sector-2);
-//   --accent-bg: var(--sector-2-bg);
-// }
-
-// .s3 {
-//   --icon-color: var(--sector-3);
-//   --accent: var(--sector-3);
-//   --accent-bg: var(--sector-3-bg);
-// }
-
-// .s4 {
-//   --icon-color: var(--sector-4);
-//   --accent: var(--sector-4);
-//   --accent-bg: var(--sector-4-bg);
-// }
-
-// .s5 {
-//   --icon-color: var(--sector-5);
-//   --accent: var(--sector-5);
-//   --accent-bg: var(--sector-5-bg);
-// }
-
-// .transversal {
-//   --icon-color: var(--sector-transversal);
-//   --accent: var(--sector-transversal);
-//   --accent-bg: var(--sector-transversal-bg);
-// }
-
-// .sector-card__header {
-//   background: var(--accent-bg);
-//   color: var(--accent);
-// }
-
-// .sector-card__count {
-//   width: 22px;
-//   height: 22px;
-//   border-radius: 50%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   color: #fff;
-//   background: var(--accent);
-//   font-size: 12px;
-// }
-
-// .sector-card__footer {
-//   text-align: center;
-//   padding: 0.5rem;
-// }
-
-// .app-mini-fab {
-//   width: 32px !important;
-//   height: 32px !important;
-//   background: #ffffff !important;
-//   border: 1px solid #e5e7eb !important;
-//   color: #6b7280 !important;
-//   box-shadow: none !important;
-//   transition: all .2s ease;
-// }
-
-// .app-mini-fab-edit:hover {
-//   background: var(--accent-bg) !important;
-//   border-color: var(--accent-bg) !important;
-//   color: var(--icon-color) !important;
-// }
-
-// .app-mini-fab-delete:hover {
-//   background: var(--accent-bg) !important;
-//   border-color: var(--accent-bg) !important;
-//   color: var(--danger) !important;
-// }
-
-// .app-mini-fab-custom {
-//   transition: all .2s ease;
-//   box-shadow: none !important;
-//   color: #fff;
-//   background: var(--accent);
-// }
-
-// .app-mini-fab-custom:hover {
-//   filter: brightness(0.90);
-// }
-
-// .schedule-chip {
-//   display: inline-flex;
-//   align-items: center;
-//   padding: 2px 8px;
-//   border-radius: 12px;
-//   font-size: 12px;
-//   font-weight: 500;
-//   background: #eee;
-// }
-
-// .schedule-chip.time {
-//   background: #d1e7ff;
-//   color: #084298;
-// }
-
-// .schedule-chip.days {
-//   background: #e8f5e9;
-//   color: #1b5e20;
-// }
-
-// .schedule-chip.empty {
-//   background: #f5f5f5;
-//   color: #999;
-// }
-
-// .days-container {
-//   display: flex;
-//   gap: 4px;
-//   flex-wrap: wrap;
-// }
-
-// .day-chip {
-//   background: #e8f5e9;
-//   color: #1b5e20;
-//   font-size: 11px;
-//   padding: 2px 6px;
-//   border-radius: 10px;
-//   font-weight: 600;
-//   min-width: 24px;
-//   text-align: center;
-// }
-
 
 .sector-card {
+  --accent: #3159b8;
+  --accent-bg: #edf3ff;
+
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.s1 {
+  --accent: var(--sector-1);
+  --accent-bg: var(--sector-1-bg);
+}
+
+.s2 {
+  --accent: var(--sector-2);
+  --accent-bg: var(--sector-2-bg);
+}
+
+.s3 {
+  --accent: var(--sector-3);
+  --accent-bg: var(--sector-3-bg);
+}
+
+.s4 {
+  --accent: var(--sector-4);
+  --accent-bg: var(--sector-4-bg);
+}
+
+.s5 {
+  --accent: var(--sector-5);
+  --accent-bg: var(--sector-5-bg);
+}
+
+.transversal {
+  --accent: var(--sector-transversal);
+  --accent-bg: var(--sector-transversal-bg);
 }
 
 .sector-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-
-  h2 {
-    margin: 0;
-  }
+  margin-bottom: 10px;
 }
+
+.sector-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.sector-card__heading h2 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.3px;
+}
+
+.sector-card__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  box-sizing: border-box;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.app-mini-fab-custom {
+  flex-shrink: 0;
+  color: #fff !important;
+  background: var(--accent) !important;
+  box-shadow: none !important;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.app-mini-fab-custom:hover {
+  filter: brightness(0.92);
+  transform: translateY(-1px);
+}
+
+// .sector-card__body {
+//   padding: 14px;
+// }
 
 .professionals-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .professional-card {
+  min-width: 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 2px 4px rgb(15 23 42 / 3%);
+  border: 1px solid #e0e6ed;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.professional-card:hover {
+  border-color: #cbd6e5;
+  box-shadow: 0 4px 12px rgb(15 23 42 / 4%);
+}
+
+.professional-card__top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 2px 5px rgb(0 0 0 / 5%);
+  gap: 12px;
 }
 
 .professional-card__info {
@@ -235,67 +126,193 @@
 }
 
 .professional-card__name {
-  font-size: 16px;
-  font-weight: 600;
+  margin: 0 0 5px;
+  color: #172033;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
   text-transform: capitalize;
-  margin-bottom: 8px;
-}
-
-.professional-card__details {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px 24px;
 }
 
 .professional-card__specialty {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  color: #526176;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
   text-transform: capitalize;
 }
 
-.professional-card__box {
+.professional-card__schedule {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
+  margin-top: 9px;
 }
 
-.box-label {
-  color: #666;
+.schedule-chip.time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 3px;
+  border-radius: 6px;
+  background: #edf3ff;
+  color: #2852a3;
   font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-weight: 650;
+}
+
+.schedule-chip.time mat-icon {
+  width: 15px;
+  height: 15px;
+  font-size: 15px;
+}
+
+.no-schedule {
+  color: #8792a2;
+  font-size: 12px;
+}
+
+.days-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.day-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background: #edf7f0;
+  color: #287344;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .professional-card__actions {
   display: flex;
-  align-items: center;
-  gap: 8px;
   flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+}
+
+.action-button {
+  width: 36px !important;
+  height: 36px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.action-button mat-icon {
+  color: #64748b;
+  font-size: 19px;
+}
+
+.edit-button:hover {
+  border-color: #c7d7ff !important;
+  background: #edf3ff !important;
+}
+
+.edit-button:hover mat-icon {
+  color: #3159b8;
+}
+
+.delete-button:hover {
+  border-color: #fecaca !important;
+  background: #fff1f2 !important;
+}
+
+.delete-button:hover mat-icon {
+  color: #c24141;
+}
+
+.professional-card__box {
+  display: grid;
+  grid-template-columns: 20px auto minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid #edf0f5;
+  border-radius: 10px;
+  background: #f0f4f9;
+  min-width: 0;
+}
+
+.professional-card__box > mat-icon {
+  width: 18px;
+  height: 18px;
+  color: #77859a;
+  font-size: 18px;
+}
+
+.box-label {
+  color: #78869a;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.box-value {
+  min-width: 0;
+  color: #263449;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 20px;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .sector-card__footer {
   display: flex;
   justify-content: center;
-  padding-top: 12px;
+  padding: 14px 0 2px;
+  border-top: 1px solid #edf0f5;
+  margin-top: 14px;
+}
+
+.sector-card__footer button {
+  color: var(--accent);
+  font-weight: 650;
 }
 
 @media (max-width: 600px) {
-  .professional-card {
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px;
+  .sector-card__header {
+    padding: 15px;
   }
 
-  .professional-card__details {
-    align-items: flex-start;
-    flex-direction: column;
+  .professional-card {
+    padding: 13px;
+  }
+
+  .professional-card__top {
     gap: 8px;
   }
 
+  .professional-card__name {
+    font-size: 14px;
+  }
+
   .professional-card__actions {
-    gap: 4px;
+    gap: 3px;
+  }
+
+  .action-button {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .professional-card__box {
+    grid-template-columns: 18px auto minmax(0, 1fr);
+    gap: 6px;
+    padding: 9px;
   }
 }
