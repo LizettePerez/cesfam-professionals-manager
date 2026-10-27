@@ -28,6 +28,7 @@
   gap: 12px;
   width: 100%;
   margin-bottom: 0;
+  background-color: #f7f9fc;
 }
 
 .search-toolbar__input {
@@ -36,7 +37,7 @@
 }
 
 /* El botón mantiene su tamaño y no se encoge */
-.search-toolbar > button {
+.search-toolbar>button {
   flex: 0 0 auto;
 }
 
@@ -52,8 +53,8 @@
   white-space: nowrap;
   box-shadow: none !important;
   transition: transform 160ms ease, filter 160ms ease;
-      display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
   mat-icon {
     margin-right: 4px;
@@ -73,10 +74,9 @@
     gap: 8px;
   }
 
-  .search-toolbar > button {
+  .search-toolbar>button {
     flex-basis: 44px;
     width: 44px;
     height: 44px;
   }
 }
-
