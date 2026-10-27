@@ -112,4 +112,14 @@ export class SectorCard implements OnChanges {
 
     return map[day] ?? '';
   }
+
+  boxNumber(box: string): string {
+    const m = box.trim().match(/^(\d+)\s*[-–]?\s*(.*)$/);
+    return m ? m[1] : box.trim();
+  }
+
+  boxNote(box: string): string {
+    const m = box.trim().match(/^(\d+)\s*[-–]?\s*(.*)$/);
+    return m ? m[2] : '';
+  }
 }

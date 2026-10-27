@@ -20,10 +20,14 @@
 
 
 .search-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 8px 0 10px;
   display: flex;
   gap: 12px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .search-toolbar__input {
@@ -31,30 +35,37 @@
   min-width: 0;
 }
 
-/* El botón mantiene su tamaño */
+/* El botón mantiene su tamaño y no se encoge */
 .search-toolbar > button {
-  flex: 0 0 48px;
-  width: 48px;
+  flex: 0 0 auto;
+}
+
+.app-add-button {
   height: 48px;
+  padding: 0 18px 0 14px;
   border-radius: 14px;
-}
-
-/* Evita que el buscador agregue espacio inferior */
-.search-toolbar app-search-bar {
-  display: block;
-}
-
-.app-mini-fab-custom {
-  flex-shrink: 0;
-  color: #f0f4f9 !important;
   background: #263449 !important;
+  color: #f0f4f9 !important;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0;
+  white-space: nowrap;
   box-shadow: none !important;
   transition: transform 160ms ease, filter 160ms ease;
-}
+      display: flex;
+    align-items: center;
 
-.app-mini-fab-custom:hover {
-  filter: brightness(0.92);
-  transform: translateY(-1px);
+  mat-icon {
+    margin-right: 4px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+  }
 }
 
 @media (max-width: 480px) {

@@ -30,65 +30,50 @@
       ) {
       <article class="professional-card">
 
-        <div class="professional-card__top">
-          <div class="professional-card__info">
-            <h3 class="professional-card__name">
-              {{ p.nombre }}
-            </h3>
-
-            <div class="professional-card__specialty">
-              {{ p.especialidad }}
-            </div>
-
-            <div class="professional-card__schedule">
-              @if (p.start_time) {
-              <span class="schedule-chip time">
-                <mat-icon>schedule</mat-icon>
-                {{ p.start_time.slice(0, 5) }}
-
-                @if (p.end_time) {
-                – {{ p.end_time.slice(0, 5) }}
-                }
-              </span>
-              } @else if (p.days && p.days.length > 0) {
-              <div class="days-container">
-                @for (d of p.days; track $index) {
-                <span class="day-chip">
-                  {{ formatDay(d) }}
-                </span>
-                }
-              </div>
-              } @else {
-                <!-- <span class="no-schedule">&nbsp;</span> -->
-              }
-            </div>
-          </div>
-
-          <div class="professional-card__actions">
-            <button
-              mat-icon-button
-              class="action-button edit-button"
-              aria-label="Editar profesional"
-              (click)="confirmDialog('edit', p)">
-              <mat-icon>edit</mat-icon>
-            </button>
-
-            <button
-              mat-icon-button
-              class="action-button delete-button"
-              aria-label="Eliminar profesional"
-              (click)="confirmDialog('delete', p)">
-              <mat-icon>delete_outline</mat-icon>
-            </button>
-          </div>
+        <div class="box-plate"
+          [class.box-plate--long]="boxNumber(p.box).length > 3">
+          <span class="box-plate__label">Box</span>
+          <strong class="box-plate__number">{{ boxNumber(p.box) }}</strong>
+          @if (boxNote(p.box)) {
+          <span class="box-plate__note">{{ boxNote(p.box) }}</span>
+          }
         </div>
 
-        <div class="professional-card__box">
-          <mat-icon>meeting_room</mat-icon>
-          <span class="box-label">Box asignado</span>
-          <span class="box-value">
-            {{ p.box || 'Sin asignar' }}
-          </span>
+        <div class="professional-card__info">
+          <h3 class="professional-card__name">{{ p.nombre }}</h3>
+          <div class="professional-card__specialty">{{ p.especialidad }}</div>
+
+          @if (p.start_time || (p.days && p.days.length > 0)) {
+          <div class="professional-card__schedule">
+            @if (p.start_time) {
+            <span class="schedule-chip time">
+              <mat-icon>schedule</mat-icon>
+              {{ p.start_time.slice(0, 5) }}
+              @if (p.end_time) { – {{ p.end_time.slice(0, 5) }} }
+            </span>
+            }
+            @if (p.days && p.days.length > 0) {
+            <div class="days-container">
+              @for (d of p.days; track $index) {
+              <span class="day-chip">{{ formatDay(d) }}</span>
+              }
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="professional-card__actions">
+          <button mat-icon-button class="action-button edit-button"
+            aria-label="Editar profesional"
+            (click)="confirmDialog('edit', p)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="action-button delete-button"
+            aria-label="Eliminar profesional"
+            (click)="confirmDialog('delete', p)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
         </div>
 
       </article>
